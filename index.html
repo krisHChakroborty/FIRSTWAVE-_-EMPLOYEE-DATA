@@ -15,100 +15,78 @@
   --edit:#28a745;
   --delete:#dc3545;
 }
-
 body{
   margin:0;
   font-family:Segoe UI,Arial,sans-serif;
   background:var(--bg);
   color:var(--text);
-  transition:.3s;
 }
-
 header{
   background:var(--header);
   padding:12px;
   display:flex;
-  align-items:center;
-  justify-content:space-between;
   flex-wrap:wrap;
   gap:10px;
+  align-items:center;
 }
-
-header img{height:55px;}
 header h1{
   flex:1;
   text-align:center;
-  font-size:20px;
   margin:0;
-  font-weight:800;
+  font-size:20px;
 }
-
+header img{height:50px;}
 .header-btns button{
   padding:6px 10px;
   border:none;
   border-radius:6px;
   cursor:pointer;
-  font-weight:600;
 }
-
-.dark{background:#333;color:#fff;}
-.light{background:#eee;}
-.upload{background:var(--primary);color:#fff;}
-
 .container{
   max-width:1000px;
   margin:20px auto;
   padding:10px;
 }
-
 .card{
   background:var(--card);
-  border-radius:12px;
-  box-shadow:0 6px 18px rgba(0,0,0,.1);
   padding:20px;
+  border-radius:12px;
+  box-shadow:0 5px 15px rgba(0,0,0,.1);
   margin-bottom:20px;
 }
-
 .row{
   display:flex;
   gap:12px;
   flex-wrap:wrap;
   margin-bottom:12px;
 }
-
 input,textarea{
   flex:1;
   padding:10px;
   border-radius:6px;
   border:1px solid #ccc;
-  font-size:14px;
 }
-
 .save-btn{
   background:var(--primary);
   color:#fff;
   border:none;
   padding:12px;
   border-radius:8px;
-  font-size:15px;
   cursor:pointer;
 }
-
 .exit-btn{
   background:var(--delete);
   color:#fff;
   border:none;
-  padding:10px 14px;
+  padding:10px;
   border-radius:8px;
   cursor:pointer;
 }
-
 .employee-card{
-  border-radius:10px;
   background:#f1f1f1;
+  border-radius:10px;
   margin-bottom:10px;
 }
-
 .emp-header{
   padding:12px;
   font-weight:600;
@@ -116,18 +94,25 @@ input,textarea{
   display:flex;
   justify-content:space-between;
 }
-
 .emp-details{
   display:none;
   padding:12px;
-  font-size:14px;
 }
-
-.edit-btn{background:var(--edit);color:#fff;border:none;padding:6px 10px;border-radius:6px;}
-.delete-btn{background:var(--delete);color:#fff;border:none;padding:6px 10px;border-radius:6px;}
-
+.edit-btn{
+  background:var(--edit);
+  color:#fff;
+  border:none;
+  padding:6px 10px;
+  border-radius:6px;
+}
+.delete-btn{
+  background:var(--delete);
+  color:#fff;
+  border:none;
+  padding:6px 10px;
+  border-radius:6px;
+}
 @media(max-width:600px){
-  header h1{font-size:16px;}
   .row{flex-direction:column;}
 }
 </style>
@@ -136,31 +121,28 @@ input,textarea{
 <body>
 
 <header>
-  <input type="file" id="logoInput" accept="image/*" hidden>
+  <input type="file" id="logoInput" hidden>
   <div class="header-btns">
-    <button class="dark" onclick="darkMode()">Dark</button>
-    <button class="light" onclick="lightMode()">Light</button>
-    <button class="upload" onclick="logoInput.click()">Upload Logo</button>
+    <button onclick="darkMode()">Dark</button>
+    <button onclick="lightMode()">Light</button>
+    <button onclick="logoInput.click()">Upload Logo</button>
   </div>
-  <img id="logo" src="">
+  <img id="logo">
   <h1>FIRST WAVE FRIES – EMPLOYEE DATA</h1>
 </header>
 
 <div class="container">
 
-<!-- LIST SCREEN -->
+<!-- LIST -->
 <div class="card" id="listScreen">
-  <div style="display:flex;justify-content:space-between;align-items:center;">
+  <div style="display:flex;justify-content:space-between;">
     <h2>Employee List</h2>
-    <div>
-      <button class="save-btn" onclick="openForm()">➕ Add</button>
-      <button class="exit-btn" onclick="fullExit()">Exit</button>
-    </div>
+    <button class="save-btn" onclick="openForm()">➕ Add</button>
   </div>
   <div id="employeeList"></div>
 </div>
 
-<!-- FORM SCREEN -->
+<!-- FORM -->
 <div class="card" id="formScreen" style="display:none;">
   <div style="display:flex;justify-content:space-between;">
     <h2>Add / Edit Employee</h2>
@@ -196,27 +178,17 @@ input,textarea{
   </form>
 </div>
 
-<!-- FULL EXIT SCREEN -->
-<div class="card" id="exitScreen" style="display:none;text-align:center;">
-  <h2>App Closed</h2>
-  <p>You have exited Employee Data.</p>
-  <button class="save-btn" onclick="reOpen()">Re-Open App</button>
-</div>
-
 </div>
 
 <script>
 const listScreen=document.getElementById("listScreen");
 const formScreen=document.getElementById("formScreen");
-const exitScreen=document.getElementById("exitScreen");
 const employeeList=document.getElementById("employeeList");
 const form=document.getElementById("employeeForm");
-const saveBtn=form.querySelector(".save-btn");
 
-let employees=JSON.parse(localStorage.getItem("employees"))||[];
+let employees=JSON.parse(localStorage.getItem("employees")) || [];
 let editIndex=null;
 
-/* NAVIGATION */
 function openForm(){
   listScreen.style.display="none";
   formScreen.style.display="block";
@@ -224,22 +196,10 @@ function openForm(){
 function closeForm(){
   form.reset();
   editIndex=null;
-  saveBtn.textContent="Save Employee";
-  saveBtn.style.background="var(--primary)";
   formScreen.style.display="none";
-  listScreen.style.display="block";
-}
-function fullExit(){
-  listScreen.style.display="none";
-  formScreen.style.display="none";
-  exitScreen.style.display="block";
-}
-function reOpen(){
-  exitScreen.style.display="none";
   listScreen.style.display="block";
 }
 
-/* RENDER */
 function render(){
   employeeList.innerHTML="";
   employees.forEach((e,i)=>{
@@ -265,47 +225,45 @@ function render(){
   });
 }
 
-/* SAVE FIXED (NAME ISSUE SOLVED) */
-form.onsubmit=e=>{
+/* ✅ FIXED SAVE LOGIC */
+form.addEventListener("submit",function(e){
   e.preventDefault();
+
   const emp={
-    name:document.getElementById("empName").value.trim(),
-    contact:contact.value,
-    emergency:emergency.value,
-    idcard:idcard.value,
-    pgStart:pgStart.value,
-    pgEnd:pgEnd.value,
-    address:address.value,
-    trainStart:trainStart.value,
-    trainEnd:trainEnd.value
+    name: document.getElementById("empName").value.trim(),
+    contact: document.getElementById("contact").value,
+    emergency: document.getElementById("emergency").value,
+    idcard: document.getElementById("idcard").value,
+    pgStart: document.getElementById("pgStart").value,
+    pgEnd: document.getElementById("pgEnd").value,
+    address: document.getElementById("address").value,
+    trainStart: document.getElementById("trainStart").value,
+    trainEnd: document.getElementById("trainEnd").value
   };
+
   if(editIndex!==null) employees[editIndex]=emp;
   else employees.push(emp);
 
   localStorage.setItem("employees",JSON.stringify(employees));
   render();
-  closeForm(); // auto exit after save
-};
+  closeForm();
+});
 
-/* EDIT */
 function editEmp(i){
   const e=employees[i];
-  empName.value=e.name;
-  contact.value=e.contact;
-  emergency.value=e.emergency;
-  idcard.value=e.idcard;
-  pgStart.value=e.pgStart;
-  pgEnd.value=e.pgEnd;
-  address.value=e.address;
-  trainStart.value=e.trainStart;
-  trainEnd.value=e.trainEnd;
+  document.getElementById("empName").value=e.name;
+  document.getElementById("contact").value=e.contact;
+  document.getElementById("emergency").value=e.emergency;
+  document.getElementById("idcard").value=e.idcard;
+  document.getElementById("pgStart").value=e.pgStart;
+  document.getElementById("pgEnd").value=e.pgEnd;
+  document.getElementById("address").value=e.address;
+  document.getElementById("trainStart").value=e.trainStart;
+  document.getElementById("trainEnd").value=e.trainEnd;
   editIndex=i;
-  saveBtn.textContent="Update Employee";
-  saveBtn.style.background="var(--edit)";
   openForm();
 }
 
-/* DELETE */
 function delEmp(i){
   if(confirm("Delete employee?")){
     employees.splice(i,1);
@@ -314,7 +272,6 @@ function delEmp(i){
   }
 }
 
-/* THEME */
 function darkMode(){
   document.documentElement.style.setProperty("--bg","#121212");
   document.documentElement.style.setProperty("--text","#eee");
@@ -328,7 +285,6 @@ function lightMode(){
   document.documentElement.style.setProperty("--header","#ffcc00");
 }
 
-/* LOGO */
 logoInput.onchange=e=>{
   const r=new FileReader();
   r.onload=()=>logo.src=r.result;
