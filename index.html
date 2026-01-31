@@ -1,302 +1,340 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>FIRST WAVE FRIES - Employee Data</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FIRST WAVE FRIES – Employee Data</title>
+
 <style>
-:root {
-  --bg-color: #f9fbfd;
-  --text-color: #333;
-  --card-bg: #fff;
-  --header-bg: #ffcc00;
-  --button-color: #007bff;
-  --edit-color: #28a745;
-  --delete-color: #dc3545;
+:root{
+  --bg:#f4f6f9;
+  --text:#222;
+  --card:#fff;
+  --header:#ffcc00;
+  --primary:#007bff;
+  --edit:#28a745;
+  --delete:#dc3545;
 }
 
-body {
-  margin: 0;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background: var(--bg-color);
-  color: var(--text-color);
-  transition: all 0.3s ease;
+body{
+  margin:0;
+  font-family:Segoe UI,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  transition:.3s;
 }
 
-header {
-  background: var(--header-bg);
-  padding: 15px 20px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+header{
+  background:var(--header);
+  padding:12px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:10px;
 }
 
-header h1 { margin:0; font-weight:900; font-size:22px; text-align:center; flex:1; }
-header img { height: 60px; max-width: 100px; object-fit: contain; }
-
-.header-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
-.header-buttons button {
-  padding: 6px 12px;
-  font-size: 14px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.3s ease;
+header img{
+  height:55px;
 }
-.dark-btn { background-color: #333; color: #fff; }
-.dark-btn:hover { background-color: #555; }
-.light-btn { background-color: #f0f0f0; color: #333; }
-.light-btn:hover { background-color: #ddd; }
-.upload-btn { background-color: #007bff; color: #fff; }
-.upload-btn:hover { background-color: #0056b3; }
 
-.container { max-width: 1100px; width: 95%; margin: 30px auto 60px; }
-
-.card { background: var(--card-bg); border-radius: 12px; box-shadow:0 7px 22px rgba(0,0,0,0.07); padding: 25px 30px; margin-bottom: 25px; }
-.card h2 { font-weight: 700; margin-bottom: 20px; }
-
-.row { display:flex; gap:16px; margin-bottom:18px; flex-wrap:wrap; }
-input[type="text"], input[type="date"], textarea {
-  flex: 1 1 200px; padding:12px 14px; font-size:15px; border-radius:7px; border:1.5px solid #ccc; font-family:inherit; background:#fff; color:#333; transition:border-color 0.3s ease;
+header h1{
+  flex:1;
+  text-align:center;
+  font-size:20px;
+  margin:0;
+  font-weight:800;
 }
-textarea { min-height:60px; resize: vertical; }
-input:focus, textarea:focus { border-color: #ffb700; outline:none; }
 
-button.save-btn {
-  background-color: var(--button-color); color:#fff; border:none; padding:14px 28px; font-size:16px; font-weight:600; border-radius:8px; cursor:pointer;
+.header-btns button{
+  padding:6px 10px;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  font-weight:600;
 }
-button.save-btn:hover { background-color:#0056b3; }
 
-.employee-card {
-  background: #fefefe;
-  border-radius: 10px;
-  margin-bottom: 12px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+.dark{background:#333;color:#fff;}
+.light{background:#eee;}
+.upload{background:var(--primary);color:#fff;}
+
+.container{
+  max-width:1000px;
+  margin:20px auto;
+  padding:10px;
 }
-.employee-header {
-  display:flex; justify-content:space-between; align-items:center;
-  padding:12px 16px; cursor:pointer; font-weight:600; font-size:16px;
-  border-bottom:1px solid #ddd; border-radius:10px;
-  background:#f0f0f0;
+
+.card{
+  background:var(--card);
+  border-radius:12px;
+  box-shadow:0 6px 18px rgba(0,0,0,.1);
+  padding:20px;
+  margin-bottom:20px;
 }
-.employee-details { display:none; padding:12px 16px; font-size:14px; color:#333; }
-.employee-details div { margin-bottom:6px; }
 
-.employee-details button {
-  padding:6px 12px; font-size:13px; border:none; border-radius:6px; margin-right:6px; cursor:pointer; font-weight:600;
+.card h2{margin-top:0;}
+
+.row{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:12px;
 }
-.employee-details .edit-btn { background-color:var(--edit-color); color:#fff; }
-.employee-details .edit-btn:hover { background-color:#1e7e34; }
-.employee-details .delete-btn { background-color:var(--delete-color); color:#fff; }
-.employee-details .delete-btn:hover { background-color:#b52a37; }
 
-footer { background:#222; color:#aaa; font-size:13px; text-align:center; padding:15px 10px; }
+input,textarea{
+  flex:1;
+  padding:10px;
+  border-radius:6px;
+  border:1px solid #ccc;
+  font-size:14px;
+}
 
-@media (max-width: 600px) {
-  .row { flex-direction: column; }
-  input, textarea, button.save-btn { width:100%; }
-  header h1 { font-size:18px; width:100%; text-align:center; }
-  header img { height:50px; }
+textarea{resize:vertical;}
+
+.save-btn{
+  background:var(--primary);
+  color:#fff;
+  border:none;
+  padding:12px;
+  border-radius:8px;
+  font-size:15px;
+  cursor:pointer;
+}
+
+.exit-btn{
+  background:var(--delete);
+  color:#fff;
+  border:none;
+  padding:8px 14px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.employee-card{
+  border-radius:10px;
+  background:#f1f1f1;
+  margin-bottom:10px;
+}
+
+.emp-header{
+  padding:12px;
+  font-weight:600;
+  cursor:pointer;
+  display:flex;
+  justify-content:space-between;
+}
+
+.emp-details{
+  display:none;
+  padding:12px;
+  font-size:14px;
+}
+
+.emp-details button{
+  padding:6px 10px;
+  border:none;
+  border-radius:6px;
+  font-size:13px;
+  cursor:pointer;
+}
+
+.edit-btn{background:var(--edit);color:#fff;}
+.delete-btn{background:var(--delete);color:#fff;}
+
+@media(max-width:600px){
+  header h1{font-size:16px;}
+  .row{flex-direction:column;}
 }
 </style>
 </head>
+
 <body>
 
 <header>
-  <input type="file" id="logoInput" accept="image/*" style="display:none"/>
-  <div class="header-buttons">
-    <button class="dark-btn" onclick="enableDarkMode()">Dark Mode</button>
-    <button class="light-btn" onclick="enableLightMode()">Light Mode</button>
-    <button class="upload-btn" onclick="document.getElementById('logoInput').click()">Upload Logo</button>
+  <input type="file" id="logoInput" accept="image/*" hidden>
+  <div class="header-btns">
+    <button class="dark" onclick="darkMode()">Dark</button>
+    <button class="light" onclick="lightMode()">Light</button>
+    <button class="upload" onclick="logoInput.click()">Upload Logo</button>
   </div>
-  <img id="logo" src="logo.png" alt="Logo" />
+  <img id="logo" src="logo.png">
   <h1>FIRST WAVE FRIES – EMPLOYEE DATA</h1>
 </header>
 
-<main class="container">
-  <section class="card">
-    <h2>Add / Edit Employee</h2>
-    <form id="employeeForm" autocomplete="off">
-      <div class="row">
-        <input type="text" id="name" placeholder="Employee Name" required />
-        <input type="text" id="contact" placeholder="Contact Number" required />
-        <input type="text" id="emergency" placeholder="Emergency Contact" required />
-      </div>
-      <div class="row">
-        <input type="text" id="idcard" placeholder="ID Card Number" required />
-      </div>
-      <div class="row">
-        <div>
-          <label for="pgStart">Start PG</label>
-          <input type="date" id="pgStart" />
-        </div>
-        <div>
-          <label for="pgEnd">End PG</label>
-          <input type="date" id="pgEnd" />
-        </div>
-      </div>
-      <div class="row">
-        <textarea id="address" placeholder="Address"></textarea>
-      </div>
-      <div class="row">
-        <div>
-          <label for="trainingStart">Start Training</label>
-          <input type="date" id="trainingStart" />
-        </div>
-        <div>
-          <label for="trainingEnd">End Training</label>
-          <input type="date" id="trainingEnd" />
-        </div>
-      </div>
-      <button class="save-btn" type="submit">Save Employee</button>
-    </form>
-  </section>
+<div class="container">
 
-  <section class="card">
+<!-- LIST SCREEN -->
+<div class="card" id="listScreen">
+  <div style="display:flex;justify-content:space-between;align-items:center;">
     <h2>Employee List</h2>
-    <div id="employeeList"></div>
-  </section>
-</main>
+    <button class="save-btn" onclick="openForm()">➕ Add Employee</button>
+  </div>
+  <div id="employeeList"></div>
+</div>
 
-<footer>
-  &copy; FIRST WAVE FRIES | Employee Management System
-</footer>
+<!-- FORM SCREEN -->
+<div class="card" id="formScreen" style="display:none;">
+  <div style="display:flex;justify-content:space-between;align-items:center;">
+    <h2>Add / Edit Employee</h2>
+    <button class="exit-btn" onclick="closeForm()">❌ Exit</button>
+  </div>
+
+  <form id="form">
+    <div class="row">
+      <input id="name" placeholder="Employee Name" required>
+      <input id="contact" placeholder="Contact Number" required>
+      <input id="emergency" placeholder="Emergency Contact" required>
+    </div>
+
+    <div class="row">
+      <input id="idcard" placeholder="ID Card Number" required>
+    </div>
+
+    <div class="row">
+      <input type="date" id="pgStart">
+      <input type="date" id="pgEnd">
+    </div>
+
+    <div class="row">
+      <textarea id="address" placeholder="Address"></textarea>
+    </div>
+
+    <div class="row">
+      <input type="date" id="trainStart">
+      <input type="date" id="trainEnd">
+    </div>
+
+    <button class="save-btn" type="submit">Save Employee</button>
+  </form>
+</div>
+
+</div>
 
 <script>
-const form = document.getElementById("employeeForm");
-const employeeList = document.getElementById("employeeList");
-const logoInput = document.getElementById("logoInput");
-const logoImg = document.getElementById("logo");
-let employees = JSON.parse(localStorage.getItem("employees")) || [];
-let editIndex = null;
+const form=document.getElementById("form");
+const listScreen=document.getElementById("listScreen");
+const formScreen=document.getElementById("formScreen");
+const employeeList=document.getElementById("employeeList");
+const saveBtn=form.querySelector(".save-btn");
 
-function formatDate(dateStr) {
-  if(!dateStr) return "N/A";
-  const d = new Date(dateStr);
-  return isNaN(d) ? "N/A" : d.toLocaleDateString();
+let employees=JSON.parse(localStorage.getItem("employees"))||[];
+let editIndex=null;
+
+/* APP NAVIGATION */
+function openForm(){
+  listScreen.style.display="none";
+  formScreen.style.display="block";
+}
+function closeForm(){
+  form.reset();
+  editIndex=null;
+  saveBtn.textContent="Save Employee";
+  saveBtn.style.background="var(--primary)";
+  formScreen.style.display="none";
+  listScreen.style.display="block";
 }
 
-function renderEmployees() {
-  employeeList.innerHTML = "";
-  employees.forEach((emp, index) => {
-    const card = document.createElement("div");
-    card.className = "employee-card";
-
-    card.innerHTML = `
-      <div class="employee-header">${emp.name} - ${emp.idcard}</div>
-      <div class="employee-details">
-        <div><strong>Contact:</strong> ${emp.contact}</div>
-        <div><strong>Emergency:</strong> ${emp.emergency}</div>
-        <div><strong>Start PG:</strong> ${formatDate(emp.pgStart)}</div>
-        <div><strong>End PG:</strong> ${formatDate(emp.pgEnd)}</div>
-        <div><strong>Address:</strong> ${emp.address || "N/A"}</div>
-        <div><strong>Start Training:</strong> ${formatDate(emp.trainingStart)}</div>
-        <div><strong>End Training:</strong> ${formatDate(emp.trainingEnd)}</div>
-        <div>
-          <button class="edit-btn" onclick="editEmployee(${index})">Edit</button>
-          <button class="delete-btn" onclick="deleteEmployee(${index})">Delete</button>
-        </div>
+/* RENDER */
+function render(){
+  employeeList.innerHTML="";
+  employees.forEach((e,i)=>{
+    const div=document.createElement("div");
+    div.className="employee-card";
+    div.innerHTML=`
+      <div class="emp-header">
+        ${e.name}
+        <span>▼</span>
       </div>
-    `;
-
-    const header = card.querySelector(".employee-header");
-    const details = card.querySelector(".employee-details");
-    header.addEventListener("click", ()=>details.style.display = details.style.display === "block" ? "none" : "block");
-
-    employeeList.appendChild(card);
+      <div class="emp-details">
+        <div><b>Contact:</b> ${e.contact}</div>
+        <div><b>Emergency:</b> ${e.emergency}</div>
+        <div><b>ID:</b> ${e.idcard}</div>
+        <div><b>PG:</b> ${e.pgStart||"-"} → ${e.pgEnd||"-"}</div>
+        <div><b>Training:</b> ${e.trainStart||"-"} → ${e.trainEnd||"-"}</div>
+        <div><b>Address:</b> ${e.address||"-"}</div><br>
+        <button class="edit-btn" onclick="editEmp(${i})">Edit</button>
+        <button class="delete-btn" onclick="delEmp(${i})">Delete</button>
+      </div>`;
+    div.querySelector(".emp-header").onclick=()=>{
+      const d=div.querySelector(".emp-details");
+      d.style.display=d.style.display==="block"?"none":"block";
+    };
+    employeeList.appendChild(div);
   });
 }
 
-function deleteEmployee(index) {
-  if(confirm("Are you sure you want to delete this employee?")){
-    employees.splice(index,1);
-    localStorage.setItem("employees", JSON.stringify(employees));
-    renderEmployees();
-    if(editIndex === index) resetForm();
-  }
-}
-
-function editEmployee(index){
-  const emp = employees[index];
-  document.getElementById("name").value = emp.name;
-  document.getElementById("contact").value = emp.contact;
-  document.getElementById("emergency").value = emp.emergency;
-  document.getElementById("idcard").value = emp.idcard;
-  document.getElementById("pgStart").value = emp.pgStart;
-  document.getElementById("pgEnd").value = emp.pgEnd;
-  document.getElementById("address").value = emp.address;
-  document.getElementById("trainingStart").value = emp.trainingStart;
-  document.getElementById("trainingEnd").value = emp.trainingEnd;
-  editIndex = index;
-  form.querySelector(".save-btn").textContent = "Update Employee";
-  form.querySelector(".save-btn").style.backgroundColor = "#28a745";
-}
-
-function resetForm(){
-  form.reset();
-  editIndex = null;
-  form.querySelector(".save-btn").textContent = "Save Employee";
-  form.querySelector(".save-btn").style.backgroundColor = "#007bff";
-}
-
-form.addEventListener("submit", e=>{
+/* SAVE / UPDATE */
+form.onsubmit=e=>{
   e.preventDefault();
-  const emp = {
-    name: document.getElementById("name").value.trim(),
-    contact: document.getElementById("contact").value.trim(),
-    emergency: document.getElementById("emergency").value.trim(),
-    idcard: document.getElementById("idcard").value.trim(),
-    pgStart: document.getElementById("pgStart").value,
-    pgEnd: document.getElementById("pgEnd").value,
-    address: document.getElementById("address").value.trim(),
-    trainingStart: document.getElementById("trainingStart").value,
-    trainingEnd: document.getElementById("trainingEnd").value
+  const emp={
+    name:name.value,
+    contact:contact.value,
+    emergency:emergency.value,
+    idcard:idcard.value,
+    pgStart:pgStart.value,
+    pgEnd:pgEnd.value,
+    address:address.value,
+    trainStart:trainStart.value,
+    trainEnd:trainEnd.value
   };
-  if(editIndex!==null) employees[editIndex] = emp;
+  if(editIndex!==null) employees[editIndex]=emp;
   else employees.push(emp);
 
-  localStorage.setItem("employees", JSON.stringify(employees));
-  renderEmployees();
-  resetForm();
-});
+  localStorage.setItem("employees",JSON.stringify(employees));
+  render();
+  closeForm();
+};
 
-renderEmployees();
-
-// Dark / Light Mode
-function enableDarkMode(){
-  document.documentElement.style.setProperty('--bg-color','#121212');
-  document.documentElement.style.setProperty('--text-color','#e0e0e0');
-  document.documentElement.style.setProperty('--card-bg','#1f1f1f');
-  document.documentElement.style.setProperty('--header-bg','#1a1a1a');
-  document.documentElement.style.setProperty('--button-color','#1a73e8');
-  document.documentElement.style.setProperty('--edit-color','#28a745');
-  document.documentElement.style.setProperty('--delete-color','#dc3545');
-}
-function enableLightMode(){
-  document.documentElement.style.setProperty('--bg-color','#f9fbfd');
-  document.documentElement.style.setProperty('--text-color','#333');
-  document.documentElement.style.setProperty('--card-bg','#fff');
-  document.documentElement.style.setProperty('--header-bg','#ffcc00');
-  document.documentElement.style.setProperty('--button-color','#007bff');
-  document.documentElement.style.setProperty('--edit-color','#28a745');
-  document.documentElement.style.setProperty('--delete-color','#dc3545');
-  
+/* EDIT */
+function editEmp(i){
+  const e=employees[i];
+  name.value=e.name;
+  contact.value=e.contact;
+  emergency.value=e.emergency;
+  idcard.value=e.idcard;
+  pgStart.value=e.pgStart;
+  pgEnd.value=e.pgEnd;
+  address.value=e.address;
+  trainStart.value=e.trainStart;
+  trainEnd.value=e.trainEnd;
+  editIndex=i;
+  saveBtn.textContent="Update Employee";
+  saveBtn.style.background="var(--edit)";
+  openForm();
 }
 
-// Upload Logo
-logoInput.addEventListener('change', function(){
-  const file = this.files[0];
-  if(file){
-    const reader = new FileReader();
-    reader.onload = function(e){ logoImg.src = e.target.result; }
-    reader.readAsDataURL(file);
+/* DELETE */
+function delEmp(i){
+  if(confirm("Delete employee?")){
+    employees.splice(i,1);
+    localStorage.setItem("employees",JSON.stringify(employees));
+    render();
   }
+}
 
-});
+/* THEME */
+function darkMode(){
+  document.documentElement.style.setProperty("--bg","#121212");
+  document.documentElement.style.setProperty("--text","#eee");
+  document.documentElement.style.setProperty("--card","#1f1f1f");
+  document.documentElement.style.setProperty("--header","#1a1a1a");
+}
+function lightMode(){
+  document.documentElement.style.setProperty("--bg","#f4f6f9");
+  document.documentElement.style.setProperty("--text","#222");
+  document.documentElement.style.setProperty("--card","#fff");
+  document.documentElement.style.setProperty("--header","#ffcc00");
+}
+
+/* LOGO UPLOAD */
+logoInput.onchange=e=>{
+  const r=new FileReader();
+  r.onload=()=>logo.src=r.result;
+  r.readAsDataURL(e.target.files[0]);
+};
+
+render();
 </script>
+
 </body>
 </html>
