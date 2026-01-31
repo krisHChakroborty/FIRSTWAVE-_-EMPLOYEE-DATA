@@ -34,10 +34,7 @@ header{
   gap:10px;
 }
 
-header img{
-  height:55px;
-}
-
+header img{height:55px;}
 header h1{
   flex:1;
   text-align:center;
@@ -72,8 +69,6 @@ header h1{
   margin-bottom:20px;
 }
 
-.card h2{margin-top:0;}
-
 .row{
   display:flex;
   gap:12px;
@@ -89,8 +84,6 @@ input,textarea{
   font-size:14px;
 }
 
-textarea{resize:vertical;}
-
 .save-btn{
   background:var(--primary);
   color:#fff;
@@ -105,7 +98,7 @@ textarea{resize:vertical;}
   background:var(--delete);
   color:#fff;
   border:none;
-  padding:8px 14px;
+  padding:10px 14px;
   border-radius:8px;
   cursor:pointer;
 }
@@ -130,16 +123,8 @@ textarea{resize:vertical;}
   font-size:14px;
 }
 
-.emp-details button{
-  padding:6px 10px;
-  border:none;
-  border-radius:6px;
-  font-size:13px;
-  cursor:pointer;
-}
-
-.edit-btn{background:var(--edit);color:#fff;}
-.delete-btn{background:var(--delete);color:#fff;}
+.edit-btn{background:var(--edit);color:#fff;border:none;padding:6px 10px;border-radius:6px;}
+.delete-btn{background:var(--delete);color:#fff;border:none;padding:6px 10px;border-radius:6px;}
 
 @media(max-width:600px){
   header h1{font-size:16px;}
@@ -157,7 +142,7 @@ textarea{resize:vertical;}
     <button class="light" onclick="lightMode()">Light</button>
     <button class="upload" onclick="logoInput.click()">Upload Logo</button>
   </div>
-  <img id="logo" src="logo.png">
+  <img id="logo" src="">
   <h1>FIRST WAVE FRIES – EMPLOYEE DATA</h1>
 </header>
 
@@ -167,21 +152,24 @@ textarea{resize:vertical;}
 <div class="card" id="listScreen">
   <div style="display:flex;justify-content:space-between;align-items:center;">
     <h2>Employee List</h2>
-    <button class="save-btn" onclick="openForm()">➕ Add Employee</button>
+    <div>
+      <button class="save-btn" onclick="openForm()">➕ Add</button>
+      <button class="exit-btn" onclick="fullExit()">Exit</button>
+    </div>
   </div>
   <div id="employeeList"></div>
 </div>
 
 <!-- FORM SCREEN -->
 <div class="card" id="formScreen" style="display:none;">
-  <div style="display:flex;justify-content:space-between;align-items:center;">
+  <div style="display:flex;justify-content:space-between;">
     <h2>Add / Edit Employee</h2>
-    <button class="exit-btn" onclick="closeForm()">❌ Exit</button>
+    <button class="exit-btn" onclick="closeForm()">Exit</button>
   </div>
 
-  <form id="form">
+  <form id="employeeForm">
     <div class="row">
-      <input id="name" placeholder="Employee Name" required>
+      <input id="empName" placeholder="Employee Name" required>
       <input id="contact" placeholder="Contact Number" required>
       <input id="emergency" placeholder="Emergency Contact" required>
     </div>
@@ -208,19 +196,27 @@ textarea{resize:vertical;}
   </form>
 </div>
 
+<!-- FULL EXIT SCREEN -->
+<div class="card" id="exitScreen" style="display:none;text-align:center;">
+  <h2>App Closed</h2>
+  <p>You have exited Employee Data.</p>
+  <button class="save-btn" onclick="reOpen()">Re-Open App</button>
+</div>
+
 </div>
 
 <script>
-const form=document.getElementById("form");
 const listScreen=document.getElementById("listScreen");
 const formScreen=document.getElementById("formScreen");
+const exitScreen=document.getElementById("exitScreen");
 const employeeList=document.getElementById("employeeList");
+const form=document.getElementById("employeeForm");
 const saveBtn=form.querySelector(".save-btn");
 
 let employees=JSON.parse(localStorage.getItem("employees"))||[];
 let editIndex=null;
 
-/* APP NAVIGATION */
+/* NAVIGATION */
 function openForm(){
   listScreen.style.display="none";
   formScreen.style.display="block";
@@ -233,6 +229,15 @@ function closeForm(){
   formScreen.style.display="none";
   listScreen.style.display="block";
 }
+function fullExit(){
+  listScreen.style.display="none";
+  formScreen.style.display="none";
+  exitScreen.style.display="block";
+}
+function reOpen(){
+  exitScreen.style.display="none";
+  listScreen.style.display="block";
+}
 
 /* RENDER */
 function render(){
@@ -241,10 +246,7 @@ function render(){
     const div=document.createElement("div");
     div.className="employee-card";
     div.innerHTML=`
-      <div class="emp-header">
-        ${e.name}
-        <span>▼</span>
-      </div>
+      <div class="emp-header">${e.name} <span>▼</span></div>
       <div class="emp-details">
         <div><b>Contact:</b> ${e.contact}</div>
         <div><b>Emergency:</b> ${e.emergency}</div>
@@ -263,11 +265,11 @@ function render(){
   });
 }
 
-/* SAVE / UPDATE */
+/* SAVE FIXED (NAME ISSUE SOLVED) */
 form.onsubmit=e=>{
   e.preventDefault();
   const emp={
-    name:name.value,
+    name:document.getElementById("empName").value.trim(),
     contact:contact.value,
     emergency:emergency.value,
     idcard:idcard.value,
@@ -282,13 +284,13 @@ form.onsubmit=e=>{
 
   localStorage.setItem("employees",JSON.stringify(employees));
   render();
-  closeForm();
+  closeForm(); // auto exit after save
 };
 
 /* EDIT */
 function editEmp(i){
   const e=employees[i];
-  name.value=e.name;
+  empName.value=e.name;
   contact.value=e.contact;
   emergency.value=e.emergency;
   idcard.value=e.idcard;
@@ -326,7 +328,7 @@ function lightMode(){
   document.documentElement.style.setProperty("--header","#ffcc00");
 }
 
-/* LOGO UPLOAD */
+/* LOGO */
 logoInput.onchange=e=>{
   const r=new FileReader();
   r.onload=()=>logo.src=r.result;
