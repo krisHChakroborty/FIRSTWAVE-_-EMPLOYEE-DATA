@@ -284,6 +284,7 @@ function enableLightMode(){
   document.documentElement.style.setProperty('--button-color','#007bff');
   document.documentElement.style.setProperty('--edit-color','#28a745');
   document.documentElement.style.setProperty('--delete-color','#dc3545');
+  
 }
 
 // Upload Logo
@@ -294,6 +295,7 @@ logoInput.addEventListener('change', function(){
     reader.onload = function(e){ logoImg.src = e.target.result; }
     reader.readAsDataURL(file);
   }
+
 });
 </script>
 </body>
